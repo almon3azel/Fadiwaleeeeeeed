@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="page-title">Fadi Waleed | ⍣ أّلَقيِّأّدٍهّـ ⍣</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #070709;
+      --bg-secondary: #111116;
+      --card-bg: rgba(20, 20, 26, 0.65);
+      --accent: #d4af37;
+      --accent-secondary: #f3e5ab;
+      --accent-glow: rgba(212, 175, 55, 0.35);
+      --text-primary: #ffffff;
+      --text-secondary: #a1a1aa;
+      --border-color: rgba(212, 175, 55, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Cairo', 'Outfit', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      transition: background-color 0.5s ease, color 0.4s ease;
+    }
+
+    /* خلفية الإضاءة الديناميكية */
+    .ambient-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(circle at 15% 15%, var(--accent-glow), transparent 40%),
+        radial-gradient(circle at 85% 80%, var(--accent-glow), transparent 45%);
+      opacity: 0.55;
+      transition: all 0.6s ease;
+    }
+
+    #particles-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.45;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* الهيدر */
+    header {
+      position: sticky;
+      top: 16px;
+      z-index: 100;
+      margin: 16px auto 0;
+      max-width: 1140px;
+      padding: 0 20px;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 26px;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.7), 0 0 25px -5px var(--accent-glow);
+    }
+
+    .brand-logo {
+      font-weight: 900;
+      font-size: 1.25rem;
+      background: linear-gradient(135deg, var(--text-primary), var(--accent), var(--accent-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .tg-nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 20px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+      color: #050505;
+      font-weight: 800;
+      font-size: 0.92rem;
+      text-decoration: none;
+      box-shadow: 0 4px 20px var(--accent-glow);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .tg-nav-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 30px var(--accent-glow);
+    }
+
+    /* قسم الواجهة الرئيسية Hero */
+    .hero {
+      padding: 85px 0 60px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 20px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      color: var(--accent-secondary);
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 26px;
+      box-shadow: 0 0 25px var(--accent-glow);
+      backdrop-filter: blur(10px);
+    }
+
+    .pulse-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.35); opacity: 0.65; }
+    }
+
+    .nickname-box {
+      font-size: clamp(1.35rem, 3.5vw, 2.2rem);
+      font-weight: 900;
+      color: var(--accent);
+      text-shadow: 0 0 28px var(--accent-glow);
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+      padding: 6px 24px;
+      border-radius: 14px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+    }
+
+    .full-name {
+      font-size: clamp(2.2rem, 5.5vw, 4rem);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, #ffffff 20%, var(--accent) 65%, var(--accent-secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-title {
+      font-size: clamp(1.15rem, 2.5vw, 1.55rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      max-width: 780px;
+      margin-bottom: 16px;
+      opacity: 0.95;
+    }
+
+    .hero-bio {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 680px;
+      line-height: 1.85;
+      margin-bottom: 36px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 15px 34px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+      color: #060608;
+      font-weight: 900;
+      font-size: 1.08rem;
+      text-decoration: none;
+      box-shadow: 0 10px 35px var(--accent-glow);
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 16px 45px var(--accent-glow);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 30px;
+      border-radius: 16px;
+      background: var(--card-bg);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      font-weight: 700;
+      font-size: 1.02rem;
+      text-decoration: none;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 25px var(--accent-glow);
+      transform: translateY(-3px);
+    }
+
+    /* الإحصائيات */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin: 20px 0 70px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 26px 20px;
+      text-align: center;
+      backdrop-filter: blur(16px);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: 0 10px 30px -10px var(--accent-glow);
+    }
+
+    .stat-value {
+      font-size: 2.3rem;
+      font-weight: 900;
+      color: var(--accent);
+      font-family: 'Outfit', 'Cairo', sans-serif;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 0.98rem;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    /* قسم الخدمات */
+    .section-header {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 900;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #fff, var(--accent-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .section-subtitle {
+      color: var(--text-secondary);
+      font-size: 1.02rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 24px;
+      margin-bottom: 80px;
+    }
+
+    .service-card {
+      position: relative;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 32px 26px;
+      backdrop-filter: blur(18px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--accent-secondary), transparent);
+      opacity: 0.75;
+    }
+
+    .service-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--accent);
+      box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.8), 0 0 30px -5px var(--accent-glow);
+    }
+
+    .service-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .service-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.85rem;
+      box-shadow: inset 0 0 18px var(--accent-glow);
+    }
+
+    .service-badge {
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--accent-secondary);
+      border: 1px solid var(--border-color);
+    }
+
+    .service-title {
+      font-size: 1.32rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    .service-desc {
+      color: var(--text-secondary);
+      font-size: 0.96rem;
+      line-height: 1.75;
+      margin-bottom: 24px;
+      flex-grow: 1;
+    }
+
+    .service-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .service-price {
+      font-weight: 900;
+      font-size: 1.05rem;
+      color: var(--accent);
+    }
+
+    .service-order-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.88rem;
+      transition: all 0.25s ease;
+    }
+
+    .service-order-btn:hover {
+      background: var(--accent);
+      color: #050505;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    /* بطاقة التواصل عبر تليجرام */
+    .contact-banner {
+      background: linear-gradient(135deg, var(--card-bg), rgba(10, 10, 14, 0.9));
+      border: 1px solid var(--border-color);
+      border-radius: 30px;
+      padding: 55px 30px;
+      text-align: center;
+      margin-bottom: 70px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 60px -15px rgba(0,0,0,0.85), 0 0 40px -10px var(--accent-glow);
+    }
+
+    .contact-banner h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.3rem);
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+
+    .contact-banner p {
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 28px;
+      font-size: 1.05rem;
+    }
+
+    .tg-username-pill {
+      display: inline-block;
+      margin-top: 18px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--accent-secondary);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 6px 18px;
+      border-radius: 999px;
+      border: 1px dashed var(--border-color);
+      direction: ltr;
+    }
+
+    /* الفوتر */
+    footer {
+      text-align: center;
+      padding: 30px 20px 45px;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* زر ولوحة التحكم في الثيمات (24 ثيم) */
+    .theme-fab {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      z-index: 999;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+      color: #050505;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.45rem;
+      box-shadow: 0 8px 30px var(--accent-glow);
+      transition: transform 0.3s ease;
+    }
+
+    .theme-fab:hover {
+      transform: scale(1.1) rotate(20deg);
+    }
+
+    .theme-modal {
+      position: fixed;
+      bottom: 92px;
+      left: 24px;
+      z-index: 999;
+      width: min(370px, calc(100vw - 48px));
+      max-height: 70vh;
+      overflow-y: auto;
+      background: rgba(12, 12, 16, 0.95);
+      border: 1px solid var(--border-color);
+      border-radius: 22px;
+      padding: 20px;
+      backdrop-filter: blur(24px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+      display: none;
+    }
+
+    .theme-modal.active {
+      display: block;
+      animation: fadeUp 0.25s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .theme-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-weight: 800;
+      font-size: 0.98rem;
+    }
+
+    .theme-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .theme-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 11px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      color: #fff;
+      cursor: pointer;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-align: right;
+      transition: all 0.2s ease;
+    }
+
+    .theme-item:hover, .theme-item.active {
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .theme-swatch {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      border: 2px solid rgba(255,255,255,0.5);
+    }
+
+    @media (max-width: 640px) {
+      .navbar { padding: 12px 16px; }
+      .brand-logo { font-size: 1.05rem; }
+      .hero { padding: 55px 0 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-glow"></div>
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- شريط التنقل -->
+  <header>
+    <nav class="navbar">
+      <div class="brand-logo" id="nav-logo">⍣ 𝗙𝗔𝗗𝗜 ⍣ أّلَقيِّأّدٍهّـ ⍣</div>
+      <div class="nav-actions">
+        <a href="https://t.me/Fxxso" target="_blank" rel="noopener" class="tg-nav-btn" id="nav-tg-link">
+          <span>تليجرام</span>
+          <span>✈️</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- الواجهة الرئيسية -->
+    <section class="hero">
+      <div class="status-badge">
+        <span class="pulse-dot"></span>
+        <span id="badge-text">⚡ متاح الآن لتنفيذ الخدمات البرمجية والخاصة</span>
+      </div>
+
+      <div class="nickname-box" id="nickname">⍣ 𝗙𝗔𝗗𝗜 ⍣ أّلَقيِّأّدٍهّـ ⍣</div>
+      <h1 class="full-name" id="full-name">فادي وليد | Fadi Waleed</h1>
+      <h2 class="hero-title" id="hero-title">حلول برمجية، أتمتة ذكية، وخدمات رقمية بمستوى قيادي</h2>
+      <p class="hero-bio" id="bio"></p>
+
+      <div class="hero-buttons">
+        <a href="https://t.me/Fxxso" target="_blank" rel="noopener" class="btn-primary" id="hero-tg-btn">
+          <span>تواصل عبر تليجرام الآن</span>
+          <span>🚀</span>
+        </a>
+        <a href="#services-section" class="btn-secondary">
+          <span>استعراض الخدمات</span>
+          <span>⚡</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- قسم الإحصائيات -->
+    <section class="stats-grid" id="stats-container"></section>
+
+    <!-- قسم الخدمات -->
+    <section id="services-section">
+      <div class="section-header">
+        <h2 class="section-title" id="services-title">الخدمات المتاحة</h2>
+        <p class="section-subtitle" id="services-subtitle">اختر الخدمة المناسبة وتواصل معي مباشرة عبر تليجرام للتنفيذ الفوري</p>
+      </div>
+      <div class="services-grid" id="services-grid"></div>
+    </section>
+
+    <!-- قسم التواصل المباشر -->
+    <section class="contact-banner">
+      <h2 id="cta-title">جاهز للبدء؟ تواصل مع القيادة مباشرة</h2>
+      <p id="cta-subtitle">التواصل متاح حصرياً عبر تليجرام للرد السريع وتنفيذ الطلبات بأعلى دقة.</p>
+      <div>
+        <a href="https://t.me/Fxxso" target="_blank" rel="noopener" class="btn-primary" id="cta-btn">
+          <span id="cta-btn-text">تواصل معي عبر تليجرام</span>
+          <span>✈️</span>
+        </a>
+      </div>
+      <div class="tg-username-pill" id="tg-username">@Fxxso</div>
+    </section>
+  </main>
+
+  <footer>
+    <p id="footer-text">جميع الحقوق محفوظة © فادي وليد — ⍣ 𝗙𝗔𝗗𝗜 ⍣ أّلَقيِّأّدٍهّـ ⍣</p>
+  </footer>
+
+  <!-- زر معاينة الثيمات (يمكن قفله أو فتحه من البوت) -->
+  <button class="theme-fab" id="theme-fab" title="تغيير ثيم الموقع" style="display: none;">🎨</button>
+  <div class="theme-modal" id="theme-modal">
+    <div class="theme-modal-header">
+      <span>اختر ثيم الموقع (24 ثيم فاخر)</span>
+      <span style="cursor:pointer" id="close-theme-modal">✕</span>
+    </div>
+    <div class="theme-grid" id="theme-grid"></div>
+  </div>
+
+  <script>
+    // مكتبة الـ 24 ثيم الفاخرة
+    const LUXURY_THEMES = {
+      royal_gold: { name: "الذهب الملكي", bg: "#070709", card: "rgba(20, 19, 15, 0.72)", accent: "#d4af37", accent2: "#f9e498", glow: "rgba(212, 175, 55, 0.35)" },
+      cyber_emerald: { name: "الزمرد السيبراني", bg: "#040b08", card: "rgba(10, 26, 19, 0.72)", accent: "#10b981", accent2: "#6ee7b7", glow: "rgba(16, 185, 129, 0.35)" },
+      crimson_velvet: { name: "المخمل القرمزي", bg: "#0b0405", card: "rgba(28, 10, 14, 0.72)", accent: "#e11d48", accent2: "#fda4af", glow: "rgba(225, 29, 72, 0.35)" },
+      amethyst_knight: { name: "فارس الجمشت", bg: "#08050d", card: "rgba(22, 13, 36, 0.72)", accent: "#9333ea", accent2: "#d8b4fe", glow: "rgba(147, 51, 234, 0.35)" },
+      arctic_diamond: { name: "الألماس القطبي", bg: "#03090e", card: "rgba(10, 24, 38, 0.72)", accent: "#06b6d4", accent2: "#a5f3fc", glow: "rgba(6, 182, 212, 0.35)" },
+      sunset_monarch: { name: "إمبراطور الغروب", bg: "#0c0604", card: "rgba(30, 15, 10, 0.72)", accent: "#f97316", accent2: "#fdba74", glow: "rgba(249, 115, 22, 0.35)" },
+      phantom_violet: { name: "الشبح البنفسجي", bg: "#06060c", card: "rgba(17, 16, 34, 0.72)", accent: "#6366f1", accent2: "#a5b4fc", glow: "rgba(99, 102, 241, 0.35)" },
+      midnight_sapphire: { name: "ياقوت منتصف الليل", bg: "#030712", card: "rgba(13, 23, 46, 0.72)", accent: "#3b82f6", accent2: "#93c5fd", glow: "rgba(59, 130, 246, 0.35)" },
+      titanium_platinum: { name: "تيتانيوم وبلاتين", bg: "#09090b", card: "rgba(24, 24, 27, 0.75)", accent: "#e4e4e7", accent2: "#ffffff", glow: "rgba(228, 228, 231, 0.28)" },
+      rose_champagne: { name: "روز جولد فاخر", bg: "#0c0708", card: "rgba(30, 18, 21, 0.72)", accent: "#f43f5e", accent2: "#fecdd3", glow: "rgba(244, 63, 94, 0.32)" },
+      neon_cyberpunk: { name: "سايبربانك نيون", bg: "#09040e", card: "rgba(26, 11, 38, 0.72)", accent: "#ec4899", accent2: "#22d3ee", glow: "rgba(236, 72, 153, 0.38)" },
+      blood_moon: { name: "القمر الدامي", bg: "#090202", card: "rgba(28, 7, 7, 0.75)", accent: "#dc2626", accent2: "#fca5a5", glow: "rgba(220, 38, 38, 0.38)" },
+      ocean_abyss: { name: "أعماق المحيط", bg: "#02080d", card: "rgba(7, 22, 34, 0.72)", accent: "#0ea5e9", accent2: "#7dd3fc", glow: "rgba(14, 165, 233, 0.35)" },
+      toxic_viper: { name: "الأفعى السامة", bg: "#050903", card: "rgba(14, 26, 9, 0.72)", accent: "#84cc16", accent2: "#d9f99d", glow: "rgba(132, 204, 22, 0.35)" },
+      imperial_jade: { name: "اليشم الإمبراطوري", bg: "#040a08", card: "rgba(11, 27, 22, 0.72)", accent: "#14b8a6", accent2: "#99f6e4", glow: "rgba(20, 184, 166, 0.35)" },
+      cosmic_nebula: { name: "السديم الكوني", bg: "#09040c", card: "rgba(26, 12, 33, 0.72)", accent: "#d946ef", accent2: "#f5d0fe", glow: "rgba(217, 70, 239, 0.35)" },
+      lava_obsidian: { name: "الحمم البركانية", bg: "#0b0502", card: "rgba(30, 13, 6, 0.72)", accent: "#ea580c", accent2: "#fed7aa", glow: "rgba(234, 88, 12, 0.36)" },
+      ice_palace: { name: "قصر الجليد الفضي", bg: "#060a0f", card: "rgba(16, 26, 38, 0.72)", accent: "#38bdf8", accent2: "#e0f2fe", glow: "rgba(56, 189, 248, 0.32)" },
+      golden_desert: { name: "رمال الذهب العربي", bg: "#0b0804", card: "rgba(29, 21, 10, 0.72)", accent: "#eab308", accent2: "#fef08a", glow: "rgba(234, 179, 8, 0.34)" },
+      stealth_carbon: { name: "الكربون التكتيكي", bg: "#080808", card: "rgba(20, 20, 20, 0.8)", accent: "#ef4444", accent2: "#e5e7eb", glow: "rgba(239, 68, 68, 0.3)" },
+      aurora_borealis: { name: "الشفق القطبي", bg: "#04090c", card: "rgba(11, 25, 32, 0.72)", accent: "#2dd4bf", accent2: "#c084fc", glow: "rgba(45, 212, 191, 0.35)" },
+      velvet_espresso: { name: "البرونز الملكي", bg: "#0a0705", card: "rgba(28, 19, 14, 0.75)", accent: "#d97706", accent2: "#fde68a", glow: "rgba(217, 119, 6, 0.32)" },
+      hologram_prism: { name: "الهولوجرام الماسي", bg: "#06050b", card: "rgba(18, 15, 34, 0.72)", accent: "#8b5cf6", accent2: "#67e8f9", glow: "rgba(139, 92, 246, 0.38)" },
+      matrix_overlord: { name: "سيد الماتريكس", bg: "#020602", card: "rgba(7, 20, 7, 0.78)", accent: "#22c55e", accent2: "#86efac", glow: "rgba(34, 197, 94, 0.38)" }
+    };
+
+    // البيانات الافتراضية في حال التشغيل المحلي المباشر
+    const DEFAULT_CONFIG = {
+      site_title: "Fadi Waleed | ⍣ أّلَقيِّأّدٍهّـ ⍣",
+      theme: "royal_gold",
+      allow_visitor_theme_switch: true,
+      badge_text: "⚡ متاح الآن لتنفيذ الخدمات البرمجية والخاصة",
+      full_name: "فادي وليد | Fadi Waleed",
+      nickname: "⍣ 𝗙𝗔𝗗𝗜 ⍣ أّلَقيِّأّدٍهّـ ⍣",
+      hero_title: "حلول برمجية، أتمتة ذكية، وخدمات رقمية بمستوى قيادي",
+      bio: "مطور برمجيات ومتخصص في بناء أنظمة الأتمتة المتقدمة، هندسة بوتات تليجرام الاحترافية، وتطوير الحلول التقنية المتكاملة بأعلى معايير الأمان والسرعة.",
+      services_title: "الخدمات المتاحة",
+      services_subtitle: "اختر الخدمة المناسبة وتواصل معي مباشرة عبر تليجرام للتنفيذ الفوري",
+      show_stats: true,
+      stats: [
+        { value: "+100%", label: "أمان وموثوقية تامة" },
+        { value: "24/7", label: "دعم فني وتواصل مباشر" },
+        { value: "VIP", label: "جودة تنفيذ احترافية" }
+      ],
+      services: [
+        {
+          id: "srv_1",
+          icon: "🤖",
+          title: "تطوير وبرمجة بوتات تليجرام",
+          description: "بناء بوتات تليجرام احترافية ومؤتمتة بالكامل (إدارة، تحكم عن بعد، ربط قواعد بيانات، وواجهات أزرار متطورة).",
+          price: "حسب الطلب",
+          badge: "الأكثر طلباً 🔥"
+        },
+        {
+          id: "srv_2",
+          icon: "⚡",
+          title: "أنظمة الأتمتة والاسكربتات الخاصة",
+          description: "برمجة اسكربتات بايثون مخصصة لأتمتة المهام الرقمية، إدارة الحسابات، واستخراج ومعالجة البيانات بسرعة فائقة.",
+          price: "تواصل للتفاصيل",
+          badge: "احترافي 💎"
+        },
+        {
+          id: "srv_3",
+          icon: "🌐",
+          title: "تصميم وتطوير مواقع الويب العصرية",
+          description: "تصميم واجهات ومواقع شخصية وتجارية فخمة مربوطة بلوحات تحكم ذكية عبر تليجرام مع استضافة سريعة وآمنة.",
+          price: "سعر مميز",
+          badge: "VIP 👑"
+        },
+        {
+          id: "srv_4",
+          icon: "🛡️",
+          title: "خدمات تليجرام والحلول الرقمية",
+          description: "توفير كافة الخدمات الرقمية المتقدمة، تأمين الحسابات، وتقديم الاستشارات التقنية الخاصة.",
+          price: "فوري",
+          badge: "سريع ⚡"
+        }
+      ],
+      telegram_url: "https://t.me/Fxxso",
+      telegram_username: "@Fxxso",
+      cta_title: "جاهز للبدء؟ تواصل مع القيادة مباشرة",
+      cta_subtitle: "التواصل متاح حصرياً عبر تليجرام للرد السريع وتنفيذ الطلبات بأعلى دقة.",
+      cta_button_text: "تواصل معي عبر تليجرام",
+      footer_text: "جميع الحقوق محفوظة © فادي وليد — ⍣ 𝗙𝗔𝗗𝗜 ⍣ أّلَقيِّأّدٍهّـ ⍣"
+    };
+
+    let currentParticleColor = "#d4af37";
+
+    function applyTheme(themeKey) {
+      const t = LUXURY_THEMES[themeKey] || LUXURY_THEMES.royal_gold;
+      const root = document.documentElement;
+      root.style.setProperty('--bg-primary', t.bg);
+      root.style.setProperty('--card-bg', t.card);
+      root.style.setProperty('--accent', t.accent);
+      root.style.setProperty('--accent-secondary', t.accent2);
+      root.style.setProperty('--accent-glow', t.glow);
+      root.style.setProperty('--border-color', t.glow);
+      currentParticleColor = t.accent;
+
+      document.querySelectorAll('.theme-item').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.theme === themeKey);
+      });
+    }
+
+    function renderSite(cfg) {
+      document.title = cfg.site_title || DEFAULT_CONFIG.site_title;
+      document.getElementById('nav-logo').textContent = cfg.nickname || DEFAULT_CONFIG.nickname;
+      document.getElementById('badge-text').textContent = cfg.badge_text || "";
+      document.getElementById('nickname').textContent = cfg.nickname || "";
+      document.getElementById('full-name').textContent = cfg.full_name || "";
+      document.getElementById('hero-title').textContent = cfg.hero_title || "";
+      document.getElementById('bio').textContent = cfg.bio || "";
+      document.getElementById('services-title').textContent = cfg.services_title || "الخدمات المتاحة";
+      document.getElementById('services-subtitle').textContent = cfg.services_subtitle || "";
+      document.getElementById('cta-title').textContent = cfg.cta_title || "";
+      document.getElementById('cta-subtitle').textContent = cfg.cta_subtitle || "";
+      document.getElementById('cta-btn-text').textContent = cfg.cta_button_text || "تواصل عبر تليجرام";
+      document.getElementById('tg-username').textContent = cfg.telegram_username || "@Fxxso";
+      document.getElementById('footer-text').textContent = cfg.footer_text || "";
+
+      const tgUrl = cfg.telegram_url || "https://t.me/Fxxso";
+      document.getElementById('nav-tg-link').href = tgUrl;
+      document.getElementById('hero-tg-btn').href = tgUrl;
+      document.getElementById('cta-btn').href = tgUrl;
+
+      // تطبيق الثيم المختار من البوت
+      applyTheme(cfg.theme || "royal_gold");
+
+      // التحكم في إظهار زر تغيير الثيم للزوار
+      const fab = document.getElementById('theme-fab');
+      fab.style.display = cfg.allow_visitor_theme_switch ? 'flex' : 'none';
+
+      // عرض الإحصائيات
+      const statsContainer = document.getElementById('stats-container');
+      if (cfg.show_stats && Array.isArray(cfg.stats) && cfg.stats.length > 0) {
+        statsContainer.style.display = 'grid';
+        statsContainer.innerHTML = cfg.stats.map(s => `
+          <div class="stat-card">
+            <div class="stat-value">${s.value}</div>
+            <div class="stat-label">${s.label}</div>
+          </div>
+        `).join('');
+      } else {
+        statsContainer.style.display = 'none';
+      }
+
+      // عرض الخدمات
+      const servicesGrid = document.getElementById('services-grid');
+      if (Array.isArray(cfg.services) && cfg.services.length > 0) {
+        servicesGrid.innerHTML = cfg.services.map(srv => `
+          <div class="service-card">
+            <div>
+              <div class="service-top">
+                <div class="service-icon">${srv.icon || '⚡'}</div>
+                ${srv.badge ? `<span class="service-badge">${srv.badge}</span>` : ''}
+              </div>
+              <h3 class="service-title">${srv.title}</h3>
+              <p class="service-desc">${srv.description}</p>
+            </div>
+            <div class="service-footer">
+              <span class="service-price">${srv.price || ''}</span>
+              <a href="${tgUrl}" target="_blank" rel="noopener" class="service-order-btn">
+                <span>اطلب الآن</span>
+                <span>⬅️</span>
+              </a>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        servicesGrid.innerHTML = `<p style="text-align:center;color:var(--text-secondary);grid-column:1/-1;">لا توجد خدمات مضافة حالياً.</p>`;
+      }
+    }
+
+    // بناء قائمة الـ 24 ثيم في نافذة المعاينة
+    function buildThemeSelector() {
+      const grid = document.getElementById('theme-grid');
+      grid.innerHTML = Object.entries(LUXURY_THEMES).map(([key, val]) => `
+        <button class="theme-item" data-theme="${key}" onclick="applyTheme('${key}')">
+          <span class="theme-swatch" style="background: linear-gradient(135deg, ${val.accent}, ${val.accent2})"></span>
+          <span>${val.name}</span>
+        </button>
+      `).join('');
+
+      const fab = document.getElementById('theme-fab');
+      const modal = document.getElementById('theme-modal');
+      const closeBtn = document.getElementById('close-theme-modal');
+
+      fab.addEventListener('click', () => modal.classList.toggle('active'));
+      closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+    }
+
+    // تحميل الإعدادات الحية من config.json على GitHub
+    async function loadConfig() {
+      buildThemeSelector();
+      try {
+        const res = await fetch(`./config.json?t=${Date.now()}`, { cache: "no-store" });
+        if (!res.ok) throw new Error("Fallback to default");
+        const data = await res.json();
+        renderSite(data);
+      } catch (err) {
+        renderSite(DEFAULT_CONFIG);
+      }
+    }
+
+    // خلفية الجزيئات التفاعلية
+    function initParticles() {
+      const canvas = document.getElementById('particles-canvas');
+      const ctx = canvas.getContext('2d');
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      const particles = Array.from({ length: 45 }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: Math.random() * 2 + 0.8,
+        dx: (Math.random() - 0.5) * 0.45,
+        dy: (Math.random() - 0.5) * 0.45
+      }));
+
+      function draw() {
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = currentParticleColor;
+        particles.forEach(p => {
+          p.x += p.dx;
+          p.y += p.dy;
+          if (p.x < 0 || p.x > width) p.dx *= -1;
+          if (p.y < 0 || p.y > height) p.dy *= -1;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    loadConfig();
+    initParticles();
+  </script>
+</body>
+</html>
