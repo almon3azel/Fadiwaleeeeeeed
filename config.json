@@ -1,7 +1,7 @@
 {
   "site_title": "Fadi Waleed | ⍣ أّلَقيِّأّدٍهّـ ⍣",
   "theme": "royal_gold",
-  "allow_visitor_theme_switch": true,
+  "allow_visitor_theme_switch": false,
   "badge_text": "⚡ متاح الآن لتنفيذ الخدمات البرمجية والخاصة",
   "full_name": "فادي وليد | Fadi Waleed",
   "nickname": "⍣ 𝗙𝗔𝗗𝗜 ⍣ أّلَقيِّأّدٍهّـ ⍣",
@@ -11,9 +11,18 @@
   "services_subtitle": "اختر الخدمة المناسبة وتواصل معي مباشرة عبر تليجرام للتنفيذ الفوري",
   "show_stats": true,
   "stats": [
-    { "value": "+100%", "label": "أمان وموثوقية تامة" },
-    { "value": "24/7", "label": "دعم فني وتواصل مباشر" },
-    { "value": "VIP", "label": "جودة تنفيذ احترافية" }
+    {
+      "value": "+100%",
+      "label": "أمان وموثوقية تامة"
+    },
+    {
+      "value": "24/7",
+      "label": "دعم فني وتواصل مباشر"
+    },
+    {
+      "value": "VIP",
+      "label": "جودة تنفيذ احترافية"
+    }
   ],
   "services": [
     {
